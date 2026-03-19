@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>365 Days For You 💜</title>
+
+<style>
+
+body{
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
+background:#f5f1ff;
+margin:0;
+padding:30px;
+text-align:center;
+color:#4b3b7a;
+scroll-behavior:smooth;
+}
+
+h1{
+margin-bottom:5px;
+}
+
+.subtitle{
+color:#7a6da8;
+margin-bottom:30px;
+}
+
+.calendar{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(50px,1fr));
+gap:10px;
+max-width:760px;
+margin:auto;
+}
+
+.day{
+height:50px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:12px;
+font-size:13px;
+border:1px solid #e4dcff;
+background:#e9e0ff;
+color:#5a44c2;
+cursor:pointer;
+position:relative;
+transition:transform .2s;
+}
+
+.day:hover{
+transform:scale(1.1);
+}
+
+.day.locked{
+opacity:.35;
+cursor:not-allowed;
+}
+
+/* ribbon */
+
+.day::before{
+content:"";
+position:absolute;
+width:6px;
+height:100%;
+background:#c7b8ff;
+left:50%;
+transform:translateX(-50%);
+}
+
+.day::after{
+content:"";
+position:absolute;
+height:6px;
+width:100%;
+background:#c7b8ff;
+top:50%;
+transform:translateY(-50%);
+}
+
+/* open animation */
+
+.day.opening{
+animation:openGift .6s ease forwards;
+}
+
+@keyframes openGift{
+
+0%{
+transform:scale(1);
+background:#e9e0ff;
+}
+
+40%{
+transform:scale(1.35) rotate(6deg);
+background:#cbb8ff;
+}
+
+70%{
+transform:scale(.9) rotate(-4deg);
+background:#bda7ff;
+}
+
+100%{
+transform:scale(1);
+background:#9f85ff;
+color:white;
+}
+
+}
+
+/* viewer */
+
+.viewer{
+margin-top:40px;
+max-width:620px;
+margin-left:auto;
+margin-right:auto;
+padding:25px;
+border-radius:16px;
+background:white;
+box-shadow:0 10px 25px rgba(0,0,0,0.05);
+}
+
+.card{
+animation:cardReveal .7s ease;
+}
+
+@keyframes cardReveal{
+
+0%{
+opacity:0;
+transform:translateY(30px) scale(.9);
+}
+
+100%{
+opacity:1;
+transform:translateY(0) scale(1);
+}
+
+}
+
+.message{
+margin-top:8px;
+color:#6e61a8;
+}
+
+img{
+width:100%;
+border-radius:12px;
+margin-top:15px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>💜 365 Days</h1>
+<div class="subtitle">Open one every day</div>
+
+<div class="calendar" id="calendar"></div>
+
+<div class="viewer" id="viewer">
+Click a gift to reveal something ✨
+</div>
+
+<script>
+
+const pins=[
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]
+
+const messages= [
+
+"yoooo birthdayyyyy boiiiiiiiiiiiiiiiiiiii wasssuppppppp!!!!! so like this is something the most funniest person to ever walk the earth (aka ME!!) made  for  you its like a daily joke calender for the next 365 hopefully till next 20th march NOW it is not a compulsion to keep checking it everyday its upto ya but it has like a few lame jokes it only opens every other dauy like u get it i hope patience illa to explain imm sleepy af anyways yeah ...YOUR BIRTHDAYYYYYY!!! sooo ummm ur OLD and WISE and ANCIET hehehehhehhehehehheehehehehehhehhehehheheheh what am i doing soo this is a smal gift idiot (pls buy me icecream and momos pleaseeeeeeeeee) yours lovinly, THE MOST FUNNIEST PERSON TO EVER WALK ON EARTH (aka RISHIKA NICOLE)",
+"Why don’t eggs tell jokes? They’d crack each other up.",
+"I used to hate facial hair… but then it grew on me.",
+"Why did the math book look sad? Too many problems.",
+"I told my computer I needed a break. It said 'No problem — I’ll go to sleep.'",
+"Why can’t you give Elsa a balloon? Because she’ll let it go.",
+"I tried to catch fog yesterday. Mist.",
+"Why did the coffee file a police report? It got mugged.",
+"I would tell you a construction joke… but I’m still working on it.",
+"Why don’t skeletons fight each other? They don’t have the guts.",
+"I used to play piano by ear… now I use my hands.",
+"What did the ocean say to the beach? Nothing, it just waved.",
+"Why did the scarecrow win an award? He was outstanding in his field.",
+"I once got fired from the keyboard factory… they said I wasn’t putting in enough shifts.",
+"I’m reading a book about anti-gravity. It’s impossible to put down.",
+"I told my wife she should embrace her mistakes. She hugged me.",
+"Why don’t scientists trust atoms? Because they make up everything.",
+"I used to be addicted to soap… but I’m clean now.",
+"What do you call fake spaghetti? An impasta.",
+"Why did the bicycle fall over? It was two-tired.",
+"I stayed up all night wondering where the sun went… then it dawned on me.",
+"Why can’t your nose be 12 inches long? Because then it’d be a foot.",
+"I ordered a chicken and an egg online. I’ll let you know.",
+"What do you call cheese that isn’t yours? Nacho cheese.",
+"I cut my finger chopping cheese… but I think that I may have grater problems.",
+"Why did the golfer bring two pairs of pants? In case he got a hole in one.",
+"I used to work in a shoe recycling shop. It was sole destroying.",
+"What kind of music do mummies listen to? Wrap music.",
+"Why did the tomato blush? Because it saw the salad dressing.",
+"I asked the librarian if the library had books on paranoia. She whispered 'They’re right behind you.'",
+"Why are elevator jokes so good? They work on many levels.",
+"What do you call a sleeping bull? A bulldozer.",
+"Why did the stadium get hot after the game? All the fans left.",
+"Why did the cookie go to the doctor? It felt crummy.",
+"I once wrote a song about tortillas. Actually it’s more of a wrap.",
+"I’m afraid for the calendar. Its days are numbered.",
+"What do you call a belt made of watches? A waist of time.",
+"Why did the computer go to therapy? It had too many bytes of emotional baggage.",
+"What’s orange and sounds like a parrot? A carrot.",
+"Why don’t oysters donate to charity? Because they’re shellfish.",
+"I used to be a banker but I lost interest.",
+"Why do cows have hooves instead of feet? Because they lactose.",
+"I just got fired from the orange juice factory. I couldn’t concentrate.",
+"Why did the mushroom go to the party? Because he was a fungi.",
+"I wondered why the baseball kept getting bigger… then it hit me.",
+"I told my dog a joke. He said it was ruff.",
+"Why did the man run around his bed? Because he was trying to catch up on sleep.",
+"What do you call a fish wearing a bowtie? Sofishticated.",
+"I told my plants a joke. They said it was growing on them.",
+"Why don’t programmers like nature? Too many bugs.",
+"What did one wall say to the other? I’ll meet you at the corner.",
+"Why did the banana go to the doctor? It wasn’t peeling well.",
+"Why did the chicken join a band? Because it had the drumsticks.",
+"Why did the computer show up at work late? It had a hard drive.",
+"I told a joke about paper… it was tearable.",
+"Why are ghosts bad liars? Because you can see right through them.",
+"Why did the music teacher need a ladder? To reach the high notes.",
+"What do you call a bear with no teeth? A gummy bear.",
+"Why did the picture go to jail? It was framed.",
+"I once tried to make a belt out of herbs… it was a waist of thyme.",
+"Why did the fish blush? It saw the ocean’s bottom.",
+"Why are frogs so happy? They eat whatever bugs them.",
+"Why don’t cows have money? Farmers milk them dry.",
+"What do you call a lazy kangaroo? A pouch potato.",
+"Why was the broom late? It swept in.",
+"What do you call a dog magician? A labracadabrador.",
+"Why did the grape stop rolling? It ran out of juice.",
+"I’m friends with all electricians… we have good current connections.",
+"Why did the computer cross the road? To get a byte to eat.",
+"What do you call a pig that does karate? A pork chop.",
+"Why did the man put his money in the freezer? Cold hard cash.",
+"What do you call an alligator detective? An investi-gator.",
+"Why did the lamp get detention? It wasn’t too bright.",
+"Why did the cat sit on the computer? To keep an eye on the mouse.",
+"What did one hat say to the other? Stay here, I’m going on ahead.",
+"Why did the kid eat his homework? His teacher said it was a piece of cake.",
+"What do you call a boomerang that doesn’t come back? A stick.",
+"Why don’t seagulls fly over the bay? Because then they’d be bagels.",
+"Why do bees have sticky hair? Because they use honeycombs.",
+"What do you call a cow with no legs? Ground beef.",
+"Why did the barber win the race? He knew a shortcut.",
+"What do you call a fish without eyes? Fsh.",
+"Why did the astronaut break up with his girlfriend? He needed space.",
+"What do you call a nervous javelin thrower? Shakespeare.",
+"Why did the duck get a red card? For foul play.",
+"What do you call a snowman with abs? An abdominal snowman.",
+"Why did the belt get arrested? It held up a pair of pants.",
+"What do you call a factory that makes okay products? A satisfactory.",
+"Why was the math lecture so long? The professor kept going off on a tangent.",
+"What’s a skeleton’s least favorite room? The living room.",
+"Why was the computer cold? It left its Windows open.",
+"Why did the cow win an award? It was outstanding in its field.",
+"What do you call a group of musical whales? An orca-stra.",
+"Why did the skeleton stay home? It had no body to go with.",
+"Why did the calendar get promoted? It had great dates.",
+"Why do melons have weddings? Because they cantaloupe.",
+"What do you call a deer with no eyes? No-eye deer.",
+"Why did the pillow go to therapy? It had too many dreams.",
+"I tried to make a joke about elevators… but it fell flat.",
+"Why don’t ants get sick? Because they have tiny ant-bodies.",
+"What did the buffalo say when his son left? Bison.",
+"Why don’t sharks eat clowns? Because they taste funny.",
+"What do you call a dinosaur with an extensive vocabulary? A thesaurus.",
+"Why did the computer go to the doctor? It had a virus.",
+"What do you call a cow that plays guitar? A moo-sician.",
+"Why did the baker go to therapy? He kneaded it.",
+"Why don’t mountains get tired? Because they peak often.",
+"What do you call a sleeping computer? A nap-top.",
+"Why was the belt nervous? It was holding everything together.",
+"What do you call a potato wearing glasses? A spec-tater.",
+"Why did the gardener plant a light bulb? He wanted to grow a power plant.",
+"Why did the man sit on his clock? He wanted to be on time.",
+"What kind of tree fits in your hand? A palm tree.",
+"Why did the bicycle go to therapy? It had too many cycles.",
+"What do you call a cow with two legs? Lean beef.",
+"Why did the math teacher love parks? Because of all the natural logs.",
+"What do you call a dog that can do magic? A labracadabrador.",
+"Why did the football coach go to the bank? To get his quarterback.",
+"What do you call a duck that steals? A robber ducky.",
+"Why did the banana wear sunscreen? It didn’t want to peel.",
+"Why did the orange stop halfway up the hill? It ran out of juice.",
+"What do you call a cow in an earthquake? A milkshake.",
+"Why did the student eat a flashlight? Because his teacher said it was a light snack.",
+"What do you call a cow with a twitch? Beef jerky.",
+"Why did the pencil get detention? It wasn’t sharp.",
+"What did the zero say to the eight? Nice belt.",
+"Why did the cookie cry? Its mom was a wafer too long.",
+"Why was the sand wet? Because the sea weed.",
+"What do you call a horse that lives next door? A neigh-bor.",
+"Why did the frog take the bus to work? His car got toad.",
+"Why did the stadium get so cool? It was filled with fans.",
+"What do you call a cow that just gave birth? Decalfinated.",
+"Why did the phone wear glasses? It lost its contacts.",
+"What do you call an angry carrot? A steamed veggie.",
+"Why don’t ducks tell secrets? Because they might quack.",
+"Why did the light bulb fail school? It wasn’t too bright.",
+"What did the grape say when stepped on? Nothing, it just let out a little wine.",
+"Why did the computer go to art school? To improve its graphics.",
+"Why did the baker stop baking bread? He loafed around too much.",
+"Why did the clock get kicked out? It kept tocking back.",
+"What do you call a cold dog? A chili dog.",
+"Why did the orange lose the race? It ran out of juice.",
+"What did the janitor say when he jumped out of the closet? Supplies!",
+"Why was the robot tired? It had a hard drive.",
+"What do you call a dinosaur that crashes his car? Tyrannosaurus wrecks.",
+"Why was the math student sad? Too many problems.",
+"Why did the coffee taste like mud? It was ground yesterday.",
+"What do you call a singing laptop? A Dell-tone.",
+"Why did the tomato turn red? Because it saw the salad dressing.",
+"Why did the computer sit on the beach? To surf the net.",
+"What do you call a bear with no socks on? Barefoot.",
+"Why did the cow cross the road? To get to the udder side.",
+"What do you call a dinosaur that never gives up? Try-try-try-ceratops.",
+"Why did the tomato fail the exam? It couldn’t ketchup.",
+"What do you call a fish that practices medicine? A sturgeon.",
+"Why was the math teacher always calm? She had too many problems to panic about.",
+"What do you call a magician dog? A labracadabrador.",
+"Why did the bread go to therapy? It had a crumby childhood.",
+"What do you call a snake that works for the government? A civil serpent.",
+"Why did the lamp get promoted? It was very bright.",
+"What do you call a cow that plays an instrument? Moo-sician.",
+"Why did the cookie go to school? To become a smart cookie.",
+"What do you call a dog that meditates? Aware wolf.",
+"Why did the chicken become an artist? It had egg-cellent ideas.",
+"What do you call a cold banana? A chill-nana.",
+"Why did the student bring string to school? To tie up loose ends.",
+"What do you call a bee that can’t make up its mind? A maybe.",
+"Why did the orange become a comedian? It had great zest.",
+"What do you call a sheep with no legs? A cloud.",
+"Why did the keyboard break up with the mouse? Too many clicks.",
+"What do you call a tired computer? A floppy disk.",
+"Why did the apple stop in the middle of the road? It ran out of core-age.",
+"What do you call a dinosaur with good manners? A please-iosaur.",
+"Why did the fish join the orchestra? Because it had good scales.",
+"What do you call a cow that writes books? A moo-velist.",
+"Why did the banana apply for a job? It wanted to earn some peelings.",
+"What do you call a nervous tree? A jitter-leaf.",
+"Why did the frog become a detective? It loved croak cases.",
+"What do you call a potato detective? Spud-lock Holmes.",
+"Why did the computer become a chef? It loved processing food.",
+"What do you call a snowman party? A snowball.",
+"Why did the grape join the gym? To get a little wine-d up.",
+"What do you call a dog that loves math? An alge-bark-a.",
+"Why did the tomato bring a suitcase? It was going on a ketchup trip.",
+"What do you call a dinosaur who loves sleep? A stego-snore-us.",
+"Why did the chicken become a detective? To crack the case.",
+"What do you call a duck that loves jokes? A wise-quacker.",
+"Why did the banana sit next to the apple? Because they were peel friends.",
+"What do you call a cow that loves gardening? A lawn moo-er.",
+"Why did the computer take a nap? It needed to recharge.",
+"What do you call a musical sandwich? A jam session.",
+"Why did the math book feel confident? It solved its problems.",
+"What do you call a fish that loves jokes? A clownfish.",
+"Why did the pencil smile? It felt sharp today.",
+"What do you call a bear that tells jokes? A pun-da.",
+"Why did the tomato go to the party? It was ready to ketchup with friends.",
+"What do you call a duck that works as a mechanic? A quack-tician.",
+"Why did the computer bring a ladder? To climb the web.",
+"What do you call a lazy cow? Moo-dy.",
+"Why did the computer join the gym? To improve its memory.",
+"What do you call a cat that loves bowling? An alley cat.",
+"Why did the banana go to the doctor? It felt split.",
+"What do you call a fish with a tie? Sofishticated.",
+"Why did the apple go to school? To become the apple-ite of knowledge.",
+"What do you call a cow that paints? Moo-net.",
+"Why did the cookie go to the doctor? It felt crummy.",
+"What do you call a dinosaur comedian? A laugh-asaurus.",
+"Why did the computer get glasses? To improve its web sight.",
+"What do you call a cow that dances? Moo-ves well.",
+"Why did the banana bring a ladder? To reach the top banana.",
+"What do you call a dog who loves science? A lab-rador.",
+"Why did the orange stop talking? It ran out of juice.",
+"What do you call a dinosaur that sings? A rap-tor.",
+"Why did the tomato become a detective? To ketchup with the truth.",
+"What do you call a sheep comedian? A laugh-lamb.",
+"Why did the computer start gardening? To grow its root directory.",
+"What do you call a cow that surfs? Moo-dude.",
+"Why did the banana break up with the apple? It found someone more appealing.",
+"What do you call a musical bee? A hum-mer.",
+"Why did the chicken cross the playground? To get to the other slide.",
+"What do you call a cow astronaut? A moo-naut.",
+"Why did the computer become a detective? To solve byte-sized mysteries.",
+"What do you call a fish that loves books? A book-cod.",
+"Why did the banana blush? It saw the salad dressing.",
+"What do you call a cow that acts in movies? Moo-vie star.",
+"Why did the tomato start running? It saw the salad dressing.",
+"What do you call a musical frog? A croak-star.",
+"Why did the computer go to school? To improve its processing skills.",
+"What do you call a dog chef? A grill-retriever.",
+"Why did the banana sit under the tree? It needed some peel-ings.",
+"What do you call a cow that climbs mountains? Moo-taineer.",
+"Why did the orange get promoted? It had great zest.",
+"What do you call a dinosaur baker? A pie-ranosaurus.",
+"Why did the chicken bring a pencil? To draw attention.",
+"What do you call a fish musician? A bass player.",
+"Why did the banana study hard? It wanted to be top banana.",
+"What do you call a cow that loves fashion? Moo-del.",
+"Why did the computer get promoted? It had excellent processing power.",
+"What do you call a musical cow? Moo-sic maker.",
+"Why did the apple smile? It found its core strength.",
+"What do you call a dinosaur athlete? A dino-sprinter.",
+"Why did the banana become a comedian? It had great appeal.",
+"What do you call a cow that loves puzzles? Moo-stery solver.",
+"Why did the computer laugh? It heard a byte-sized joke.",
+"What do you call a fish chef? A master-cod.",
+"Why did the orange join the band? It had good zest.",
+"What do you call a cow detective? Moo-lock Holmes.",
+"Why did the banana bring sunglasses? It was a bright idea.",
+"What do you call a musical tomato? A salsa star.",
+"Why did the scarecrow become a motivational speaker? Because he was outstanding in his field.",
+"What do you call a dog that can tell time? A watch dog.",
+"Why did the computer blush? It saw the motherboard.",
+"What do you call a frog who parks illegally? Toad away.",
+"Why did the pencil become famous? It drew a crowd.",
+"What do you call a sleepy cow? A moo-d napper.",
+"Why did the computer sit in the shade? It didn’t want to overheat.",
+"What do you call a musical sandwich band? Bread Zeppelin.",
+"Why did the banana win an award? Because it was appealing.",
+"What do you call a fish that runs a business? A shark-preneur.",
+"Why did the apple become confident? It believed in its core values.",
+"What do you call a cow that tells secrets? A moo-le.",
+"Why did the computer start a band? It had good bytes.",
+"What do you call a dinosaur philosopher? Think-asaurus.",
+"Why did the orange become a leader? It had great zest for life.",
+"Why did the computer go broke? It lost its cache.",
+"What do you call a cow that codes? A moo-developer.",
+"Why did the banana get promoted? It had great appeal.",
+"What do you call a fish who loves math? An alge-bra.",
+"Why did the chair break up? It felt unsupported.",
+"What do you call a lazy dog? A slow-pup.",
+"Why did the apple join a band? It had core rhythm.",
+"What do you call a dinosaur DJ? A mix-raptor.",
+"Why did the computer go on vacation? It needed to reboot.",
+"What do you call a sheep that codes? A lamb-da developer.",
+"Why did the tomato go to therapy? It couldn’t ketchup with life.",
+"What do you call a musical cat? A meow-sician.",
+"Why did the clock get a job? It wanted to make time.",
+"What do you call a dog that meditates? A zen-hound.",
+"Why did the banana fail the interview? It slipped up.",
+"What do you call a cow that surfs the web? Moo-zilla.",
+"Why did the computer laugh? It got a byte-sized joke.",
+"What do you call a fish comedian? A clownfish.",
+"Why did the pencil get promoted? It made its point.",
+"What do you call a dinosaur that cooks? A chef-a-saurus",
+"Why did the orange go to school? To get brighter.",
+"What do you call a smart dog? A know-it-hound.",
+"Why did the lamp feel proud? It brightened the room.",
+"What do you call a cow that dances well? Moo-ves smoothly.",
+"Why did the banana sit quietly? It didn’t want to split attention.",
+"What do you call a tech-savvy fish? A cyber-cod.",
+"Why did the computer go to the gym? To build memory.",
+"What do you call a fashionable cow? Moo-del.",
+"Why did the apple blush? It saw the core truth.",
+"What do you call a lazy fish? A slow-fin.",
+"Why did the keyboard get promoted? It had great strokes.",
+"What do you call a musical dog? A bark-et musician.",
+"Why did the chair get promoted? It always supported others.",
+"What do you call a dinosaur teacher? A dino-mentor.",
+"Why did the banana bring sunglasses? It was too appealing.",
+"What do you call a clever cow? Moo-smart.",
+"Why did the computer start cooking? It loved processing.",
+"What do you call a fish that works out? A muscle-cod.",
+"Why did the apple feel confident? It had core strength.",
+"What do you call a dog that loves coding? A debug-dog.",
+"Why did the clock laugh? It had good timing.",
+"What do you call a musical banana? A bandana.",
+"Why did the orange smile? It had zest for life.",
+"What do you call a cow that writes poetry? Moo-se.",
+"Why did the computer relax? It needed downtime.",
+"What do you call a dinosaur scientist? A think-osaurus.",
+"Why did the banana become famous? It was appealing.",
+"What do you call a fish detective? Sherlock Cod.",
+"Why did the chair stay calm? It had strong support.",
+"What do you call a dog that sings? A barkitone.",
+"Why did the apple go jogging? To stay core-fit.",
+"What do you call a musical cow band? Moo-sic group.",
+"Why did the computer upgrade? To improve its performance.",
+"What do you call a clever fish? Brain-sturgeon.",
+"Why did the banana go to school? To become top banana.",
+"What do you call a cow that paints? Moo-net.",
+"Why did the clock stay calm? It knew how to unwind.",
+"What do you call a dog actor? A pup-star.",
+"Why did the orange get promoted? It had zest.",
+"What do you call a musical fish? Bass player.",
+"Why did the computer rest? It needed to recharge.",
+"What do you call a cow that solves mysteries? Moo-lock Holmes.",
+"Why did the banana win? It had great appeal.",
+"What do you call a smart dinosaur? A dino-genius.",
+"Why did the apple relax? It found its core peace.",
+"What do you call a fish chef? Master-cod.",
+"Why did the chair smile? It supported success.",
+"What do you call a musical sheep? Ewe-tune.",
+"Why did the computer smile? It processed happiness.",
+"What do you call a dog teacher? A professor pup.",
+"Why did the banana succeed? It stayed appealing.",
+"What do you call a cow leader? Moo-nager.",
+"Why did the clock shine? It had good timing.",
+"What do you call a fish musician? A tuna player.",
+"Why did the apple succeed? It had strong core values.",
+"What do you call a dinosaur athlete? A sprint-osaurus.",
+"Why did the computer improve? It upgraded itself.",
+"What do you call a dog comedian? A stand-up pup.",
+"Why did the banana stay calm? It didn’t split under pressure.",
+"What do you call a cow chef? Moo-chef.",
+"Why did the orange succeed? It had zest for success.",
+"What do you call a musical cat band? Meow-sic group.",
+"Why did the chair succeed? It supported everyone.",
+"What do you call a fish leader? Captain Cod.",
+"Why did the apple grow strong? It built core strength.",
+"What do you call a dinosaur artist? Draw-osaurus.",
+"Why did the computer stay fast? It cleared cache.",
+"What do you call a dog engineer? A build-hound.",
+"Why did the banana win awards? It was appealing.",
+"What do you call a cow athlete? Moo-runner.",
+"Why did the orange shine? It had bright zest.",
+"What do you call a musical frog? Croak-star.",
+"Why did the apple smile? It felt core happiness.",
+"What do you call a dinosaur leader? Rex-ecutive.",
+"Why did the computer stay calm? It avoided crashes.",
+"What do you call a dog detective? Sherlock Bones.",
+"Why did the banana succeed? It stayed a-peel-ing.",
+"What do you call a cow scientist? Moo-chemistry expert.",
+"Why did the orange thrive? It had zest for life.",
+"What do you call a fish explorer? Cod-lumbus.",
+"Happy birthday once again dumbo i really hope its the 20th i would not have want to miscalculate again... Anyways hows life? i hope you are doing great i dont even know if youve reached till here cause like first of all i dont think you have the patience to like keep checking everyday ,you probably even forgot abou the funniest person to ever walk the earth (a.k.a ME!!). (are we even talking now?am i even alive?) so anyways if by chance if u ever open this i want to like telll you something I HATE YOU FROM THE BOTTOM OF MY HEART yeah i do you dumb ass u thought it was a confession ofc it is hate is a pretty strong emotion like i cant even describe it likkkeee a really really really strong feeling.like back  in 2021 when i first saw u looke fairly attractive i wont disagree but that attitude of yours really kinda put me off but like its nnot like anything would happened but ughhhhh u jjust ticked me off i never ever thought i would even get close to you or talk let alone be the first guy i would go on a bike ride with (ITS REAL BIG THING FOR ME OKAY!!) although i admit i hate you u started meaning something to me i dont know what ,it wasnt the kind where uk i i think im falling for dude antha.. it was more like even if we go our separate ways ,even if we never meet each otehr even if we fight or basically not end up together it was fine as long as you were uk you ,the only thing i knew for sure was you did get hurt idk what or how and i never wanted to dig deeper but you always had that spark idk wt it is , im not saying your perfect ur hella annoying but actually i dont know what im saying i mean If your reading this and we arent talking which im like 99% sure of and a 200% sure you wouldnt read this YOU REALLY MEAN A LOT TO ME!! and would be one part of my life i wouldnt forget i dont really know what though...BUT LIKE ACHINTYA RANJAN did happen in my life and its something ill cherish (i hope unless u ever stole or would steal my icecream) sooo yeahhhh HAPPPY BIRTHDAY one more thing idk when your real bday is or whatever but i need a day to celebrate you and that is tdy for me okay??? BYEEEEEEEEEEEEEEEEEEEEEEEEEE..."
+
+]
+
+/* start date */
+
+const startDate=new Date("2026-03-20")
+const today=new Date()
+
+const diffDays=Math.floor(
+(today-startDate)/(1000*60*60*24)
+)
+
+const calendar=document.getElementById("calendar")
+
+for(let i=1;i<=365;i++){
+
+let box=document.createElement("div")
+box.classList.add("day")
+box.innerText=i
+
+if(i<=diffDays+1){
+
+box.onclick=()=>openDay(i)
+
+}else{
+
+box.classList.add("locked")
+
+box.onclick=()=>{
+alert("⏳ patience Achintya.. 💜")
+}
+
+}
+
+calendar.appendChild(box)
+
+}
+
+function openDay(day){
+
+const boxes=document.querySelectorAll(".day")
+const box=boxes[day-1]
+
+box.classList.remove("opening")
+void box.offsetWidth
+box.classList.add("opening")
+
+setTimeout(()=>{
+
+const message=messages[day-1] || "More jokes coming soon 😄"
+
+
+const viewer=document.getElementById("viewer")
+
+viewer.innerHTML=
+`
+<div class="card">
+<h3>Day ${day}</h3>
+<div class="message">${message}</div>
+
+</div>
+`
+
+viewer.scrollIntoView({behavior:"smooth"})
+
+},500)
+
+}
+
+</script>
+
+</body>
+</html>
